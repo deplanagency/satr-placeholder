@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satr IT - IT Solutions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        :root {
+            --primary: #3656a6;
+            --secondary: #444545;
+            --text-primary: #444545;
+            --text-secondary: #666666;
+            --bg-light: #f8f9fa;
+            --transition: all 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 50px;  /* Adjust this value to match your preferred logo size */
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* For mobile responsiveness */
+        @media (max-width: 768px) {
+        .logo-img {
+            height: 40px;  /* Slightly smaller on mobile */
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 5% 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            background: var(--bg-light);
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* security Services */
+        .security-services {
+            padding: 4rem 5%;
+            background: var(--bg-light);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .service-item {
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .service-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Development Section */
+        .development {
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .dev-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 5%;
+            background: var(--bg-light);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Statistics Section */
+        .statistics {
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 5%;
+            background: var(--bg-light);
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            background: var(--text-primary);
+        }
+
+        /* Utility Classes */
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--text-primary);
+        }
+
+        .theme-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .theme-option:hover {
+            transform: scale(1.1);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.2s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero, .security-services, .development {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .theme-switch {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <img src="./images/satr-logo.png" alt="Satr Saudi IT Logo" class="logo-img">
+            Satr
+        </div>
+        <div class="nav-links">
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#features">Features</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+        <div class="hero-content" data-aos="fade-right">
+            <h1>Secure IT Solutions for a more secure environment</h1>
+            <p>We provide cutting-edge IT solutions to help businesses transform their digital infrastructure and achieve their goals.</p>
+            <button class="btn btn-primary">Get Started</button>
+        </div>
+        <div class="hero-image" data-aos="fade-left">
+            <img src="./images/it-solutions.svg" alt="IT Solutions Illustration">
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 data-aos="fade-up">Our Services</h2>
+        <div class="service-cards">
+            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-icon">⚙️</div>
+                <h3>Software Development</h3>
+                <p>Meeting all your needs from website creation to mobile app development.</p>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-icon">🔒</div>
+                <h3>Cybersecurity</h3>
+                <p>Advanced security measures to protect your code and data.</p>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-icon">📈</div>
+                <h3>Digital Transformation</h3>
+                <p>Comprehensive digital solutions to modernize your business processes.</p>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-icon">🔑</div>
+                <h3>Consulting Needs</h3>
+                <p>IT strategy development, Architecture planning, Project management and more .</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- security Services Section -->
+    <section class="security-services">
+        <div class="security-content" data-aos="fade-right">
+            <h2>Cybersecurity Services</h2>
+            <div class="service-list">
+                <div class="service-item">
+                    <span>🔒</span>
+                    Network Security
+                </div>
+                <div class="service-item">
+                    <span>🛡️</span>
+                    Threat Detection
+                </div>
+                <div class="service-item">
+                    <span>🔐</span>
+                    Data Encryption
+                </div>
+                <div class="service-item">
+                    <span>📊</span>
+                    Security Audits
+                </div>
+                <div class="service-item">
+                    <span>🔍</span>
+                    Vulnerability Assessment
+                </div>
+                <div class="service-item">
+                    <span>🚨</span>
+                    Incident Response
+                </div>
+            </div>
+        </div>
+        <div class="security-image" data-aos="fade-left">
+            <img src="./images/cybersecurity-services.svg" alt="Cybersecurity Services">
+        </div>
+    </section>
+
+    <!-- Development Section -->
+    <section class="development">
+        <div class="dev-image" data-aos="fade-right">
+            <img src="./images/development-services.svg" alt="Development Services Illustration">
+        </div>
+        <div class="dev-content" data-aos="fade-left">
+            <h2>Design & Development</h2>
+            <div class="dev-services">
+                <div class="service-item">
+                    <span>💻</span>
+                    Responsive Design
+                </div>
+                <div
+                <div class="service-item">
+                    <span>⚛️</span>
+                    React development
+                </div>
+                <div class="service-item">
+                    <span>📱</span>
+                    Android apps
+                </div>
+                <div class="service-item">
+                    <span>🌐</span>
+                    Laravel development
+                </div>
+                <div class="service-item">
+                    <span>📱</span>
+                    iOS development
+                </div>
+                <div class="service-item">
+                    <span>🎨</span>
+                    UX/UI design
+                </div>
+                <div class="service-item">
+                    <span>🛒</span>
+                    E-commerce
+                </div>
+                <div class="service-item">
+                    <span>🖨️</span>
+                    Print design
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 data-aos="fade-up">Our Features</h2>
+        <div class="feature-grid">
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon">⚙️</div>
+                <div>
+                    <h3>Incredible Infrastructure</h3>
+                    <p>State-of-the-art infrastructure for optimal performance.</p>
+                </div>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon">📊</div>
+                <div>
+                    <h3>Simple Dashboard</h3>
+                    <p>User-friendly dashboard for easy monitoring and control.</p>
+                </div>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon">📧</div>
+                <div>
+                    <h3>Email Notifications</h3>
+                    <p>Stay updated with automated email notifications.</p>
+                </div>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="feature-icon">⏰</div>
+                <div>
+                    <h3>Deadline Reminders</h3>
+                    <p>Never miss important deadlines with smart reminders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="statistics">
+        <h2 data-aos="fade-up">Our Growth in Numbers</h2>
+        <div class="stat-grid">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number" data-target="25">0</div>
+                <p>Happy Clients</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number" data-target="40">0</div>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number" data-target="15+">0</div>
+                <p>Team Members</p>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number" data-target="6">0</div>
+                <p>Years Experience</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 data-aos="fade-up">Get in Touch</h2>
+        <div class="contact-info">
+            <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-envelope fa-2x"></i>
+                <h3>Email</h3>
+                <p>info@satr.net.sa</p>
+                <p>it@satr.net.sa</p>
+            </div>
+            <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-phone fa-2x"></i>
+                <h3>Phone</h3>
+                <p>Call us on</p>
+                <p>+(966) 126857457</p>
+            </div>
+            <div class="contact-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-location-dot fa-2x"></i>
+                <h3>Location</h3>
+                <p>5400 Ismail Ibn Katheer, office 7</p>
+                <p>Jeddah, 23717</p>
+            </div>
+        </div>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">↑</div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Remove loading screen
+        window.addEventListener('load', () => {
+            document.querySelector('.loading').style.display = 'none';
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Back to top button
+        window.addEventListener('scroll', () => {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        document.querySelector('.back-to-top').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Statistics animation
+        const stats = document.querySelectorAll('.stat-number');
+        stats.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-target'));
+            const increment = target / 200;
+            
+            const animateStat = () => {
+                const current = parseInt(stat.innerText);
+                if (current < target) {
+                    stat.innerText = Math.ceil(current + increment);
+                    setTimeout(animateStat, 1);
+                } else {
+                    stat.innerText = target;
+                }
+            };
+
+            // Use Intersection Observer for triggering animation
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    animateStat();
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(stat);
+        });
+
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
